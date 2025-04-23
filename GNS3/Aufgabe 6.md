@@ -32,10 +32,11 @@ Führe aus auf jeweils angegebenen PC: ip (Adresse)
 
 Führe den folgenden Befehl aus:
 
-`/interface bridge add name=bridge1 protocol-mode=none vlan-filtering=yes`
+```cmd
+/interface bridge add name=bridge1 protocol-mode=none vlan-filtering=yes
+```	
 
-
-#### Einen Port zu einer Bridge hinzufügen (z.B. für ein Endgerät)
+#### Einen Port (Only Untagged) zu einer Bridge hinzufügen (z.B. für ein Endgerät)
 ```cmd
 /interface bridge port add bridge=bridge1 comment="VLAN 101 – Buchhaltung" frame-types=admit-only-untagged-and-priority-tagged hw=no interface=ether4 pvid=101
 ```
@@ -45,3 +46,31 @@ Führe den folgenden Befehl aus:
 ```cmd
 /interface bridge port add bridge=bridge1 comment="VLAN 103 – Verkauf" frame-types=admit-only-untagged-and-priority-tagged hw=no interface=ether6 pvid=103
 ```
+
+#### Einen Port (Only Tagged) zu einer Bridge hinzufügen
+
+```cmd
+/interface bridge port add bridge=bridge1 frame-types=admit-only-vlan-tagged hw=no interface=ether8
+```
+#### Ein VLAN einer Bridge hinzufügen, sowie «tagged» und «untagged» ports definieren.
+```cmd
+/interface bridge vlan add bridge=bridge1 comment="VLAN 101" tagged=ether8 untagged=ether4 vlan-ids=101
+```	
+```cmd
+/interface bridge vlan add bridge=bridge1 comment="VLAN 102" tagged=ether8 untagged=ether5 vlan-ids=102
+```		
+```cmd
+/interface bridge vlan add bridge=bridge1 comment="VLAN 103" tagged=ether8 untagged=ether6 vlan-ids=103
+```	
+#### Hostnamen Setzen auf SW1 und SW2
+```cmd 
+/system identity set name=SW1
+```
+```cmd
+/system identity set name=SW2
+```
+
+#### **Teste ob Pings Funktionieren**
+
+![alt text](image-1.png)
+![alt text](image-2.png)
