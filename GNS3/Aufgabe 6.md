@@ -74,3 +74,56 @@ Führe den folgenden Befehl aus:
 
 ![alt text](image-1.png)
 ![alt text](image-2.png)
+
+## 6.2. Übung 4 – Praxisnahes VLAN Beispiel mit Router und DHCP Server
+
+In der Praxis erhält jedes VLAN ein eigenes Subnetz (Grundregeln: Ein Subnetz pro VLAN), ein Default Gateway, einen DHCP Server. In dieser Aufgabe erweitern Sie Ihr Netzwerk aus Übung 3 mit diesen Komponenten.
+
+### 6.2.1 Lernziele
+
+Sie können einen DHCP-Server konfigurieren. Sie können einen DNS-Server konfigurieren. Sie können einen Router für mehrere Subnetze konfigurieren.
+
+### 6.2.2 Aufgabe
+
+![](image-3.png)
+
+Meine Subnetze:  
+192.168.20.0/24  
+192.168.30.0/24  
+192.168.40.0/24  
+
+### 6.2.3 Konfiguration
+
+Auf R1 füge 3 VLAN Interfaces hinzu
+```cmd
+/interface vlan add interface=ether2 vlan-id=101 name=ether2_vlan101
+```	
+```cmd
+/interface vlan add interface=ether2 vlan-id=102 name=ether2_vlan102
+```	
+```cmd
+/interface vlan add interface=ether2 vlan-id=203 name=ether2_vlan103
+```	
+
+Verteile Host adressen auf die VLANs
+```cmd
+/ip address add address=192.168.20.1/24 interface=ether2_vlan101
+```	
+```cmd
+/ip address add address=192.168.30.1/24 interface=ether2_vlan102
+```	
+```cmd
+/ip address add address=192.168.40.1/24 interface=ether2_vlan103
+```		
+
+Gehe auf SW1 und füge ether2 als Tagged Port für die drei VLANs hinzu
+
+```cmd
+/interface bridge vlan set numbers=0 tagged=ether8,ether2 untagged=ether4
+/interface bridge vlan set numbers=1 tagged=ether8,ether2 untagged=ether5
+/interface bridge vlan set numbers=2 tagged=ether8,ether2 untagged=ether6
+
+
+/interface bridge port add bridge=bridge1 interface=ether2
+/interface bridge vlan add bridge=bridge1 tagged=ether2 vlan-ids=101,102,103
+```
