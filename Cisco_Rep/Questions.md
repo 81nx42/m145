@@ -328,3 +328,120 @@ Yes, if a ping was done, Router1 has an ARP entry for 172.16.31.2.
 
 #### What happens to the first ping when the router must respond to an ARP?
 The first ping fails due to the ARP process.
+
+
+# 06_Packet_Tracer
+
+### Step_1
+
+#### How many host addresses are needed in the largest required subnet?
+50 host addresses
+
+#### What is the minimum number of subnets required?
+4 subnets LAN-A, LAN-B, and 2 for expansion
+
+#### What is the /24 subnet mask in binary?
+11111111.11111111.11111111.00000000
+
+---
+
+### Step_2
+
+#### In the network mask, what do the ones represent?
+network portion of the address
+
+#### In the network mask, what do the zeros represent?
+host portion of the address
+
+---
+
+### Step_3
+
+#### (/25) 11111111.11111111.11111111.10000000
+
+#### Dotted decimal subnet mask equivalent:
+255.255.255.128
+
+#### Number of subnets?
+2
+
+#### Number of hosts?
+126
+
+---
+
+#### (/26) 11111111.11111111.11111111.11000000
+
+#### Dotted decimal subnet mask equivalent:
+255.255.255.192
+
+#### Number of subnets?
+4
+
+#### Number of hosts?
+62
+
+---
+
+#### (/27) 11111111.11111111.11111111.11100000
+
+#### Dotted decimal subnet mask equivalent:
+255.255.255.224
+
+#### Number of subnets?
+8
+
+#### Number of hosts?
+30
+
+---
+
+#### (/28) 11111111.11111111.11111111.11110000
+
+#### Dotted decimal subnet mask equivalent:
+255.255.255.240
+
+#### Number of subnets?
+16
+
+#### Number of hosts?
+14
+
+---
+
+#### (/29) 11111111.11111111.11111111.11111000
+
+#### Dotted decimal subnet mask equivalent:
+255.255.255.248
+
+#### Number of subnets?
+32
+
+#### Number of hosts?
+6
+
+---
+
+#### (/30) 11111111.11111111.11111111.11111100
+
+#### Dotted decimal subnet mask equivalent:
+255.255.255.252
+
+#### Number of subnets?
+64
+
+#### Number of hosts?
+2
+
+---
+
+### Step_4
+
+#### Which subnet masks meet the required number of minimum host addresses?
+/25 and /26
+
+#### Which subnet masks meet the minimum number of subnets required?
+/26 or longer
+
+#### Which subnet mask meets both the required minimum number of hosts and the minimum number of subnets required?
+/26
