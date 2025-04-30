@@ -24,7 +24,7 @@ show startup-config
 Because the configuration has not been saved to NVRAM.    
 u need to : copy running-config startup-config
 
-
+---
 ## Part_3
 ### Step_1
 
@@ -32,9 +32,11 @@ u need to : copy running-config startup-config
 The Message of the Daybanner is displayed after a user connects to the switch, whether via console, Telnet, or SSH, before any login prompt appears.
 
 #### Why should every switch have a MOTD banner?
+
 A MOTD banner provides a legal warning to unauthorized users that access is prohibited.
 It serves as a security measure to deter attackers and helps with legal protection by clearly stating that the system is monitored and restricted.
 
+---
 ## Part_4
 ### Step_1
 
@@ -49,6 +51,7 @@ show startup-config
 #### Are all the changes that were entered recorded in the file?
 Yes, the changes are recorded in the file. If copy running-config startup-config worked, changes are saved to NVRAM. 
 
+---
 # 03_Packet_Tracer
 
 ## Part_1
@@ -58,11 +61,12 @@ Yes, the changes are recorded in the file. If copy running-config startup-config
 
 You can verify the console and enable passwords by exiting to the initial prompt and attempting to access user and privileged EXEC modes
 
+---
 ### Step_4
 #### Which command do you issue to accomplish this step?
  copy running-config startup-config
 
- 
+ ---
 ## Part_2
 ### Step_2
 
@@ -70,6 +74,7 @@ You can verify the console and enable passwords by exiting to the initial prompt
 
 No beacause, the configuration for S1 and S2 are in Part 3. After the right configuration, it worked. 
 
+---
 ## Part_3
 ### Step_1
 
@@ -227,3 +232,99 @@ Use the physical topology view or MAC tables to identify
 
 - **What changes with IPv6?**  
   Longer addresses, different frame structure, Letters.
+
+  # 05_Packet_Tracer
+
+## Part_1
+### Step_1
+
+#### Is this address listed in the table above?
+
+Yes, MAC address `0060.7036.2849` is in the addressing table. Connected with device IP `172.16.31.3`.
+
+#### How many copies of the PDU did Switch1 make?
+
+Switch1 made 3 copies of the broadcast, one for each active port.
+
+#### What is the IP address of the device that accepted the PDU?
+
+Device with IP  `172.16.31.3` accepted ARP request.
+
+#### What happened to the source and destination MAC addresses?
+
+The source MAC was `000C.85CC.1DA7` from `172.16.31.2` and  destination MAC was the broadcast address `FFFF.FFFF.FFFF` because its an ARP request.
+
+#### How many copies of the PDU did the switch make during the ARP reply?
+
+The switch made only one copy of the ARP reply frame because it had already learned the MAC address of the sender and forwarded it directly to the correct port.
+
+### Step_2
+
+#### Do the MAC addresses of the source and destination align with their IP addresses?
+
+Yes,source and destination MAC addresses align with their respective IPs:  
+- Source IP `172.16.31.2` uses MAC `000C.85CC.1DA7`  
+- Destination IP `172.16.31.3` uses MAC `0060.7036.2849`  
+
+
+#### To what IP address does the MAC address entry correspond?
+
+The MAC `0060.7036.2849` corresponds to IP `172.16.31.3`.
+
+#### In general, when does an end device issue an ARP request?
+
+When end device makes arp request when it needs to send data to another device on the same local network but does not know the destination's MAC address.
+
+## Part_2
+### Step_1
+
+#### How many replies were sent and received?
+
+4  replies were sent and received in total, 2 replies for each ping
+
+
+---
+
+### Step_2
+
+#### Do the entries correspond to those in the table above?(Switch1)
+
+Yes, the MAC address table on Switch1 matches the addressing table.
+
+
+
+#### Do the entries correspond to those in the table above?(Switch0)
+
+Yes, Switch0's MAC address table also works and showing correct MAC-to-port mappings for connected devices.
+
+#### Why are two MAC addresses associated with one port?
+
+These 2 appear on the same port because the switch is connected to another switch.
+
+---
+
+## Part_3
+### Step_1
+
+#### What is the IP address of the new ARP table entry?
+172.16.31.1
+
+---
+
+### Step_2
+
+#### What is the target destination IP address of the ARP request?
+172.16.31.1
+
+#### The destination IP address is not 10.10.10.1. Why?
+Because 10.10.10.1 is on a different network.
+
+
+#### How many MAC addresses are listed? Why?
+0 , there are no entrys because routers don’t learn MACs like switches.
+
+#### Is there an entry for 172.16.31.2?
+Yes, if a ping was done, Router1 has an ARP entry for 172.16.31.2.
+
+#### What happens to the first ping when the router must respond to an ARP?
+The first ping fails due to the ARP process.
