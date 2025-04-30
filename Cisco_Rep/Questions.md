@@ -131,3 +131,99 @@ To activate the VLAN 1 interface, which is administratively down by default.
 | Switch0       | 0060:2F84:4AB6     | 00D0:588C:2401   | N/A           | N/A           |
 | Access Point  | N/A               | N/A              | N/A           | N/A           |
 | 10.10.10.2    | 00D0:588C:2401     | 0060:2F84:4AB6   | 10.10.10.2    | 172.16.31.5   |
+
+### Step_1 
+#### What device has MAC 00D0:BA8E:741A?
+Use the physical topology view or MAC tables to identify
+
+
+## Part_3 
+### Reflection Questions 
+
+### Media and Transmission
+
+- **Were there different types of cables/media used to connect devices?**  
+   Yes, Ethernet and wirless (For AP) 
+
+- **Did the cables change the handling of the PDU?**  
+   No it didn’t affect the protocol.
+
+---
+
+## Hub Behavior
+
+- **Did the Hub lose any information?**  
+  No it didnt, but it forwarded data without any checks.
+
+- **What does the Hub do with MAC/IP addresses?**  
+  Forwards all frames to all ports, ignores MAC/IP.
+
+- **Highest OSI layer used by Hub?**  
+  Layer 1 
+
+- **Did the Hub replicate a rejected PDU?**  
+  Yes, Hubs do.
+
+---
+
+## Access Point Behavior
+
+- **Did the Access Point do anything with the information?**  
+   It forwards frames and bridgees wireless/wired networks.
+
+- **Was any MAC/IP lost during wireless transfer?**  
+  No, MAC and IP available
+.
+- **Highest OSI layer used by AP?**  
+  Layer 2 
+
+- **Did the AP replicate a rejected PDU?**  
+  APs might drop / forward 
+
+---
+
+## MAC/IP Analysis
+
+- **In PDU Details, which MAC appears first?**  
+  Destination MAC.
+
+- **Why does MAC order appear that way?**  
+  Frame format sends to destination address first.
+
+- **MAC addressing pattern in simulation?**  
+  Often vendor-specific prefixes.
+
+- **Did switches replicate PDUs rejected with red “X”?**  
+  No, they use MAC tables to forward.
+
+- **Where did MAC addresses change between networks?**  
+  At the router.
+
+- **Which device uses MAC 00D0:BA?**  
+   Either a router interface or gateway.
+
+- **Who did the other MACs belong to?**  
+  PCs, switches, router interfaces.
+
+---
+
+## IP Addressing
+
+- **Did IPs change in any PDUs?**  
+  No source/destination IPs remain until reply.
+
+- **Do source/destination IPs swap in reply?**  
+  ➤ Yes, they do.
+
+- **Pattern in IP addressing?**  
+   Separate subnets for different networks 172. and 10.
+
+- **Why do routers need different networks on different ports?**  
+  To route between subnets.
+
+---
+
+## IPv6 Consideration
+
+- **What changes with IPv6?**  
+  Longer addresses, different frame structure, Letters.
