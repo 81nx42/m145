@@ -48,3 +48,37 @@ show startup-config
 
 #### Are all the changes that were entered recorded in the file?
 Yes, the changes are recorded in the file. If copy running-config startup-config worked, changes are saved to NVRAM. 
+
+# 03_Packet_Tracer
+
+## Part_1
+### Step_3
+
+### How can you verify that both passwords were configured correctly?
+
+You can verify the console and enable passwords by exiting to the initial prompt and attempting to access user and privileged EXEC modes
+
+### Step_4
+#### Which command do you issue to accomplish this step?
+ copy running-config startup-config
+
+ 
+## Part_2
+### Step_2
+
+#### Were you successful?
+
+No beacause, the configuration for S1 and S2 are in Part 3. After the right configuration, it worked. 
+
+## Part_3
+### Step_1
+
+#### If this is the case, why would we configure it with an IP address?
+An IP address is configured to allow remote management of the switch using protocols like Telnet.
+
+#### Why do you enter the no shutdown command?
+To activate the VLAN 1 interface, which is administratively down by default.
+
+### Step_4 
+#### Which command is used to save the configuration file in RAM to NVRAM?
+ copy running-config startup-config
