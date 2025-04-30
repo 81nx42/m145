@@ -119,7 +119,7 @@ Verteile Host adressen auf die VLANs
 Gehe auf SW1 und füge ether2 als Tagged Port für die drei VLANs hinzu
 
 ```cmd
-/interface bridge vlan set numbers=0 tagged=ether8,ether2 untagged=ether4
+/interface bridge vlan add numbers=0 tagged=ether8,ether2 untagged=ether4
 /interface bridge vlan set numbers=1 tagged=ether8,ether2 untagged=ether5
 /interface bridge vlan set numbers=2 tagged=ether8,ether2 untagged=ether6
 
@@ -127,3 +127,5 @@ Gehe auf SW1 und füge ether2 als Tagged Port für die drei VLANs hinzu
 /interface bridge port add bridge=bridge1 interface=ether2
 /interface bridge vlan add bridge=bridge1 tagged=ether2 vlan-ids=101,102,103
 ```
+
+/ip dhcp-server network set [find address=192.168.65.0/24] dns-server=192.168.65.1
