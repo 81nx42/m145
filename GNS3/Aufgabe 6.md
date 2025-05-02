@@ -85,6 +85,8 @@ Sie können einen DHCP-Server konfigurieren. Sie können einen DNS-Server konfig
 
 ### 6.2.2 Aufgabe
 
+Das file heisst Noah_GNS3_6.2
+
 ![](image-3.png)
 
 ### Teil 1: Switch Konfiguration
