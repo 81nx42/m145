@@ -87,45 +87,131 @@ Sie können einen DHCP-Server konfigurieren. Sie können einen DNS-Server konfig
 
 ![](image-3.png)
 
-Meine Subnetze:  
-192.168.20.0/24  
-192.168.30.0/24  
-192.168.40.0/24  
+### Teil 1: Switch Konfiguration
+### SW1
 
-### 6.2.3 Konfiguration
-
-Auf R1 füge 3 VLAN Interfaces hinzu
-```cmd
-/interface vlan add interface=ether2 vlan-id=101 name=ether2_vlan101
-```	
-```cmd
-/interface vlan add interface=ether2 vlan-id=102 name=ether2_vlan102
-```	
-```cmd
-/interface vlan add interface=ether2 vlan-id=203 name=ether2_vlan103
-```	
-
-Verteile Host adressen auf die VLANs
-```cmd
-/ip address add address=192.168.20.1/24 interface=ether2_vlan101
-```	
-```cmd
-/ip address add address=192.168.30.1/24 interface=ether2_vlan102
-```	
-```cmd
-/ip address add address=192.168.40.1/24 interface=ether2_vlan103
-```		
-
-Gehe auf SW1 und füge ether2 als Tagged Port für die drei VLANs hinzu
+#### Erstelle bridge1
 
 ```cmd
-/interface bridge vlan add numbers=0 tagged=ether8,ether2 untagged=ether4
-/interface bridge vlan set numbers=1 tagged=ether8,ether2 untagged=ether5
-/interface bridge vlan set numbers=2 tagged=ether8,ether2 untagged=ether6
+/interface bridge
+add name=bridge1 vlan-filtering=yes
+```
+#### Erstelle die Ports
 
+```cmd
+/interface bridge port
+add bridge=bridge1 interface=ether2 frame-types=admit-only-vlan-tagged comment="Trunk zu R1"
+add bridge=bridge1 interface=ether3 frame-types=admit-only-vlan-tagged comment="Trunk zu SW2"
+add bridge=bridge1 interface=ether4 pvid=501 frame-types=admit-only-untagged-and-priority-tagged comment="PC1 – Buchhaltung"
+add bridge=bridge1 interface=ether5 pvid=502 frame-types=admit-only-untagged-and-priority-tagged comment="PC2 – Entwicklung"
+add bridge=bridge1 interface=ether6 pvid=503 frame-types=admit-only-untagged-and-priority-tagged comment="PC3 – Verkauf"
 
-/interface bridge port add bridge=bridge1 interface=ether2
-/interface bridge vlan add bridge=bridge1 tagged=ether2 vlan-ids=101,102,103
+```
+#### Erstelle VLANs
+
+```cmd
+/interface bridge vlan
+add bridge=bridge1 vlan-ids=501 tagged=ether2,ether3 untagged=ether4
+add bridge=bridge1 vlan-ids=502 tagged=ether2,ether3 untagged=ether5
+add bridge=bridge1 vlan-ids=503 tagged=ether2,ether3 untagged=ether6
 ```
 
-/ip dhcp-server network set [find address=192.168.65.0/24] dns-server=192.168.65.1
+### SW2
+
+#### Erstelle bridge1
+
+```cmd
+/interface bridge
+add name=bridge1 vlan-filtering=yes
+```
+#### Erstelle die Ports
+
+```cmd
+/interface bridge port
+add bridge=bridge1 interface=ether3 frame-types=admit-only-vlan-tagged comment="Trunk zu SW1"
+add bridge=bridge1 interface=ether4 pvid=501 frame-types=admit-only-untagged-and-priority-tagged comment="PC4 – Buchhaltung"
+add bridge=bridge1 interface=ether5 pvid=502 frame-types=admit-only-untagged-and-priority-tagged comment="PC5 – Entwicklung"
+add bridge=bridge1 interface=ether6 pvid=503 frame-types=admit-only-untagged-and-priority-tagged comment="PC6 – Verkauf"
+
+
+```
+#### Erstelle VLANs
+
+```cmd
+/interface bridge vlan
+add bridge=bridge1 vlan-ids=501 tagged=ether3 untagged=ether4
+add bridge=bridge1 vlan-ids=502 tagged=ether3 untagged=ether5
+add bridge=bridge1 vlan-ids=503 tagged=ether3 untagged=ether6
+```
+
+## Teil 2: R1 Konfiguration
+
+#### Füge Vlans Hinzu
+```cmd
+/interface vlan
+add interface=ether2 vlan-id=501 name=ether2_vlan501
+add interface=ether2 vlan-id=502 name=ether2_vlan502
+add interface=ether2 vlan-id=503 name=ether2_vlan503
+```	
+#### Füge IPs Hinzu
+```cmd
+/ip address
+add address=192.168.55.1/24 interface=ether2_vlan501
+add address=192.168.65.1/24 interface=ether2_vlan502
+add address=192.168.75.1/24 interface=ether2_vlan503
+
+```	
+#### Erstelle Pools
+```cmd
+/ip pool
+add name=pool501 ranges=192.168.55.10-192.168.55.100
+add name=pool502 ranges=192.168.65.10-192.168.65.100
+add name=pool503 ranges=192.168.75.10-192.168.75.100
+```	
+#### Füge DHCP-Server Hinzu
+```cmd
+/ip dhcp-server
+add address-pool=pool501 interface=ether2_vlan501 name=dhcp501
+add address-pool=pool502 interface=ether2_vlan502 name=dhcp502
+add address-pool=pool503 interface=ether2_vlan503 name=dhcp503
+
+```	
+#### Füge Gateways Hinzu
+```cmd
+/ip dhcp-server network
+add address=192.168.55.0/24 gateway=192.168.55.1
+add address=192.168.65.0/24 gateway=192.168.65.1
+add address=192.168.75.0/24 gateway=192.168.75.1
+
+```	
+#### Aktiviere die DHCP-Server
+```cmd
+/ip dhcp-server enable [find]
+```	
+#### Fehler behebung
+Mir ist bei diesem auftrag einen Fehler aufgetreten. Ich habe ether2/3 nicht korrekt gesetzt. Er war nie auf Tagged-only
+
+#### SW1
+```cmd
+/interface bridge port set [find where interface=ether2] frame-types=admit-only-vlan-tagged
+``` 
+#### SW2
+```cmd
+/interface bridge port set [find where interface=ether3] frame-types=admit-only-vlan-tagged
+``` 
+
+## Teil 3: VPCS Richtig einstellen
+Ersetze in der Config die Zeile IP mit dhcp. Führe durch von PC1-PC6.
+Danach gehe auf die Kommandozeile und schreibe: dhcp
+
+## Teil 4: Test Phase
+Nun wenn alles ausgeführt wurde, teste ob konfigurationen richtig aussehen. Wenn alles so wie auf den Screenshots aussieht, hast du den Auftrag geschafft.
+
+### Bei R1
+
+![alt text](image-4.png)
+![alt text](image-5.png)
+
+### Bei SW1
+![alt text](image-6.png)
+
